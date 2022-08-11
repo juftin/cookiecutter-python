@@ -4,7 +4,7 @@
 
 import click
 
-from {{cookiecutter.project_slug}} import __application__, __version__
+from {{ cookiecutter.project_slug }} import __application__, __version__
 
 
 @click.group()
