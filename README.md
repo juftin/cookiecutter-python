@@ -21,7 +21,7 @@ pipx install poetry
 Generate a Python project:
 
 ```shell
-cookiecutter gh:juftin/cookiecutter-pypackage
+cookiecutter gh:juftin/cookiecutter-python
 ```
 
 Change to the root directory of your new project, create a Git
