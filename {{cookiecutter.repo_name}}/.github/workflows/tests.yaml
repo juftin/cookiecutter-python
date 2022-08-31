@@ -4,8 +4,16 @@ on:
     push:
         branches:
         -   {{ cookiecutter.default_branch }}
+        paths:
+        -   {{ cookiecutter.project_slug }}/**
+        -   pyproject.toml
+        -   .github/workflows/tests.yaml
     pull_request:
         branches: ['**']
+        paths:
+        -   {{ cookiecutter.project_slug }}/**
+        -   pyproject.toml
+        -   .github/workflows/tests.yaml
     schedule:
     -   cron: 0 12 1 * *
 jobs:

@@ -90,5 +90,3 @@ autodoc_pydantic_settings_show_json = False
 
 always_document_default_args = True
 docstring_default_arg_substitution = "**[Default]:**"
-
-html_favicon = "{{ cookiecutter.favicon }}"
