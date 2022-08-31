@@ -88,6 +88,7 @@ The Release workflow performs the following automated steps:
 {% if cookiecutter.publish_to_docker_hub == 'True' %}
 - Build and upload the package to Docker Hub.
 {%- endif %}
+
 Release notes are populated with the titles and authors of merged pull requests.
 You can group the pull requests into separate sections
 by applying labels to them, like this:
