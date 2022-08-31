@@ -30,6 +30,9 @@ jobs:
             run: |
                 pip install poetry
                 poetry --version
+        -   name: Fetch Related Pull Request Information
+            uses: 8BitJonny/gh-get-current-pr@2.1.1
+            id: PR
         -   name: Fetch Related Pull Request Labels
             run: |
                 echo PR_LABELS='${{"{{"}} steps.PR.outputs.pr_labels {{"}}"}}' >> ${GITHUB_ENV}
