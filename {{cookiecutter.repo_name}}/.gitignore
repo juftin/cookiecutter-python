@@ -133,3 +133,6 @@ dmypy.json
 
 # IDE Files
 .idea/
+
+# Node.js
+node_modules/
