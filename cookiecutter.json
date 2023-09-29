@@ -8,6 +8,12 @@
   "full_name": "Justin Flannery",
   "email": "juftin@juftin.com",
   "github_username": "juftin",
+  "default_python_version": [
+    "3.11",
+    "3.10",
+    "3.9",
+    "3.8"
+  ],
   "default_branch": ["main", "master"],
   "license": ["MIT", "Apache-2.0", "GPL-3.0", "UNLICENSED"],
   "development_status": [

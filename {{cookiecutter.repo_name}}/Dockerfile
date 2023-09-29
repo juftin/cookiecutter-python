@@ -1,4 +1,4 @@
-FROM python:3.11-slim
+FROM python:{{ cookiecutter.default_python_version }}-slim
 
 MAINTAINER {{ cookiecutter.full_name }} <{{ cookiecutter.email }}>
 

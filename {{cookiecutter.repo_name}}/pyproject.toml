@@ -76,6 +76,7 @@ post-install-commands = [
 pre-install-commands = [
   "pip install -q -r requirements.txt --no-deps"
 ]
+python = "{{ cookiecutter.default_python_version }}"
 type = "virtual"
 
 [tool.hatch.envs.default.scripts]
