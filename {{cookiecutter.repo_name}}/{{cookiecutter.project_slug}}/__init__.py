@@ -2,7 +2,7 @@
 {{ cookiecutter.project_name }}
 """
 
-from ._version import __application__, __author__, __email__, __version__
+from {{ cookiecutter.project_slug }}.__about__ import __application__, __author__, __email__, __version__
 
 __all__ = [
     "__application__",

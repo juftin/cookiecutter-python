@@ -1,5 +1,5 @@
 """
-{{ cookiecutter.project_name }} Version file
+{{ cookiecutter.project_name }} info file
 """
 
 __author__ = "{{ cookiecutter.full_name }}"

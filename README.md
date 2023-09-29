@@ -1,22 +1,43 @@
-# Quickstart Guide
+<div style="text-align: center;">
+  <h1 style="font-size: 36px; margin-top: 0;" align="center">
+    cookiecutter-python
+  </h1>
+  <p style="margin-bottom: 0;" align="center">
+    <img src="https://i.imgur.com/g8yxsTP.png" width="400">
+  </p>
+</div>
 
-## Requirements
+[juftin]'s personal [cookiecutter] template for Python projects.
 
-Install [Cookiecutter]:
+## Features
+
+- [hatch] for managing the project's virtual environment and development tools
+- [black] for code formatting
+- [ruff] for code linting
+- [mypy] for type checking
+- [pip-tools] for dependency management + lockfile
+- [pre-commit] for managing git hooks
+- [GitHub Actions] for CI/CD
+- [MkDocs] and [mkdocs-material] for documentation
+- [GitHub Pages] for hosting documentation
+- [semantic-release] and [gitmoji] for automated releases
+- Publishes to [PyPI] and [Docker Hub]
+
+## Quickstart Guide
+
+### Requirements
+
+Install [cookiecutter]:
 
 ```shell
 pipx install cookiecutter
 ```
 
-Install [Poetry]:
-
-```shell
-pipx install poetry
-```
-
 [pipx] is preferred, but you can also install with `pip install --user`.
 
-## Creating a project
+### Creating a project
+
+#### Cookiecutter
 
 Generate a Python project:
 
@@ -24,118 +45,62 @@ Generate a Python project:
 cookiecutter gh:juftin/cookiecutter-python
 ```
 
+#### Git Init
+
 Change to the root directory of your new project, create a Git
 repository, and install [pre-commit]
 
 ```shell
 git init
 pre-commit install
+git add .
 pre-commit run --all-files
 git add .
 git commit
 ```
 
-## Running
+#### Secrets Init
 
-Run the command-line interface from the source tree:
+This project uses GitHub Actions to deploy releases, documentation, and
+to publish artifacts to PyPI / Docker Hub. You will need to create
+secrets in your GitHub repository to enable these features.
 
-```shell
-poetry install
-poetry run <project>
-```
-
-Run an interactive Python session:
-
-```shell
-poetry install
-poetry run python
-```
-
-## Testing
-
-Run the full test suite:
+These secrets can be found in the `.env` file at the root of the project.
+Once you have created the secrets on the `.env` file, you can run the
+[GitHub CLI] to create the secrets in your repository:
 
 ```shell
-poetry run tox
+gh secret set --env-file .env
 ```
 
-## Continuous Integration
+#### Developing
 
-### GitHub
+This project generates its own documentation for how to use the
+project's tools. To view the documentation locally, run:
 
-1. Sign up at [GitHub].
-2. Create an empty repository for your project.
-3. Follow the instructions to push an existing repository from the command line.
-4. Go to the repository settings on GitHub, and
-   add a secret named `PERSONAL_ACCESS_TOKEN` with your GitHub Personal Access Token.
+```shell
+hatch run docs:serve
+```
 
-### PyPI
+Once the server is running, you can view the documentation at
+[localhost:8080/contributing].
 
-1. Sign up at [PyPI].
-2. Go to the Account Settings on PyPI,
-   generate an API token, and copy it.
-3. Go to the repository settings on GitHub, and
-   add a secret named `PYPI_TOKEN` with the token you just copied.
-
-### Read the Docs
-
-1. Sign up at [Read the Docs].
-2. Import your GitHub repository, using the button _Import a Project_.
-3. Install the GitHub webhook,
-   using the button _Add integration_
-   on the _Integrations_ tab
-   in the _Admin_ section of your project
-   on Read the Docs.
-
-## Releasing
-
-Releases are triggered entirely by CI/CD via Pull requests being merged into
-the main branch.
-
-The version bump on each release is decided by the labels placed on the Pull Requests.
-There must be one, and only one, of the following labels on each pull request to the main branch:
-`BUMP_MAJOR`, `BUMP_MINOR`, `BUMP_PATCH`. Pull Requests will be un-mergeable unless the version on
-your `pyproject.toml` matches the main branch and the proper version labels are applied.
-
-The Release workflow performs the following automated steps:
-
-- Build and upload the package to PyPI.
-- Apply a version tag to the repository.
-- Publish a GitHub Release.
-
-Release notes are populated with the titles and authors of merged pull requests.
-You can group the pull requests into separate sections
-by applying labels to them, like this:
-
-<!-- table-release-drafter-sections-begin -->
-
-| Pull Request Label | Section in Release Notes     |
-| ------------------ | ---------------------------- |
-| `breaking`         | 💥 Breaking Changes          |
-| `enhancement`      | 🚀 Features                  |
-| `removal`          | 🔥 Removals and Deprecations |
-| `bug`              | 🐞 Fixes                     |
-| `performance`      | 🐎 Performance               |
-| `testing`          | 🚨 Testing                   |
-| `ci`               | 👷 Continuous Integration    |
-| `documentation`    | 📚 Documentation             |
-| `refactoring`      | 🔨 Refactoring               |
-| `style`            | 💄 Style                     |
-| `dependencies`     | 📦 Dependencies              |
-
-<!-- table-release-drafter-sections-end -->
-
-[codecov]: https://codecov.io/
-[cookiecutter]: https://github.com/audreyr/cookiecutter
-[github]: https://github.com/
-[install-poetry.py]: https://raw.githubusercontent.com/python-poetry/poetry/master/install-poetry.py
-[nox]: https://nox.thea.codes/
-[nox-poetry]: https://nox-poetry.readthedocs.io/
-[pipx]: https://pipxproject.github.io/pipx/
-[poetry]: https://python-poetry.org/
-[poetry version]: https://python-poetry.org/docs/cli/#version
-[pyenv]: https://github.com/pyenv/pyenv
-[pypi]: https://pypi.org/
-[read the docs]: https://readthedocs.org/
-[testpypi]: https://test.pypi.org/
 [pre-commit]: https://pre-commit.com/
+[gitmoji]: https://gitmoji.dev/
+[semantic-release]: https://github.com/semantic-release/semantic-release
+[Cookiecutter]: https://github.com/cookiecutter/cookiecutter
+[hatch]: https://hatch.pypa.io/latest/
+[MkDocs]: https://www.mkdocs.org/
+[mkdocs-material]: https://squidfunk.github.io/mkdocs-material/
+[Github Actions]: https://github.com/features/actions
+[Github Pages]: https://pages.github.com/
+[juftin]: https://github.com/juftin
+[pipx]: https://pypa.github.io/pipx/
+[PyPI]: https://pypi.org/
+[Docker Hub]: https://hub.docker.com/
+[pip-tools]: https://pip-tools.readthedocs.io/en/latest/
+[GitHub CLI]: https://cli.github.com/
+[localhost:8080/contributing]: http://localhost:8080/contributing
+[ruff]: httpe://ruff.io/
+[mypy]: https://mypy.readthedocs.io/
+[black]: https://black.readthedocs.io/en/stable/

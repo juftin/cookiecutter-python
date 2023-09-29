@@ -1,56 +1,219 @@
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+build-backend = "hatchling.build"
+requires = ["hatchling"]
 
-[tool.poetry]
-name = "{{ cookiecutter.friendly_name }}"
+[project]
+authors = [
+  {name = "{{ cookiecutter.full_name }}", email = "{{ cookiecutter.email }}"}
+]
+classifiers = [
+  "{{ cookiecutter.development_status }}",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy"
+]
+dependencies = [
+  "click>=8.0.1"
+]
 description = "{{ cookiecutter.project_short_description }}"
-version = "{{ cookiecutter.version }}"
-authors = ["{{ cookiecutter.full_name }} <{{ cookiecutter.email }}>"]
+dynamic = ["version"]
 {% if cookiecutter.license != 'UNLICENSED' -%}
 license = "{{ cookiecutter.license }}"
 {% endif -%}
+name = "{{ cookiecutter.friendly_name }}"
 readme = "README.md"
-homepage = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.repo_name }}"
-repository = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.repo_name }}"
-documentation = "https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.repo_name }}"
-classifiers = [
-    "{{ cookiecutter.development_status }}",
-    "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.7",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10"
+requires-python = ">=3.8"
+
+[project.scripts]
+{{ cookiecutter.friendly_name }} = "{{ cookiecutter.project_slug }}.cli:cli"
+
+[project.urls]
+Documentation = "https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.repo_name }}"
+Issues = "https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.repo_name }}/issues"
+Source = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.repo_name }}"
+
+[tool.black]
+line-length = 100
+skip-string-normalization = true
+target-version = ["py38"]
+
+[tool.coverage.paths]
+{{ cookiecutter.project_slug }} = ["{{ cookiecutter.project_slug }}", "*/{{ cookiecutter.repo_name }}/{{ cookiecutter.project_slug }}"]
+tests = ["tests", "*/{{ cookiecutter.repo_name }}/tests"]
+
+[tool.coverage.report]
+exclude_lines = [
+  "no cov",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:"
 ]
 
-[tool.poetry.dependencies]
-python = ">=3.7.1,<4.0"
-click = ">=8.0.1"
-pytest = { version = ">=5.2", optional = true }
-flake8 = { version = ">=3.0.0", optional = true }
-coverage = { version = ">=6.2", extras = ["toml"], optional = true }
-mypy = { version = "^0.971", optional = true }
-tox = { version = "^3.25.1", optional = true }
+[tool.coverage.run]
+branch = true
+omit = [
+  "{{ cookiecutter.project_slug }}/__about__.py"
+]
+parallel = true
+source_pkgs = ["{{ cookiecutter.project_slug }}", "tests"]
 
-[tool.poetry.dev-dependencies]
-pytest = ">=5.2"
-coverage = { extras = ["toml"], version = ">=6.2" }
-flake8 = ">=3.0.0"
-tox = "^3.25.1"
-mypy = "^0.971"
+[[tool.hatch.envs.all.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11"]
 
-[tool.poetry.extras]
-dev = [
-    "pytest",
-    "flake8",
-    "coverage",
-    "mypy",
-    "tox"
+[tool.hatch.envs.default]
+dependencies = [
+  "coverage[toml]>=6.5",
+  "pytest"
+]
+path = ".venv"
+post-install-commands = [
+  "pre-commit install"
+]
+pre-install-commands = [
+  "pip install -q -r requirements.txt --no-deps"
+]
+type = "virtual"
+
+[tool.hatch.envs.default.scripts]
+cov = [
+  "test-cov",
+  "cov-report"
+]
+cov-report = [
+  "- coverage combine",
+  "coverage report -m"
+]
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
+
+[tool.hatch.envs.docs]
+dependencies = [
+  "mkdocs~=1.5.2",
+  "mkdocs-material~=9.2.3",
+  "mkdocstrings~=0.22.0",
+  "markdown-exec[ansi]~=1.6.0"
+]
+detached = true
+
+[tool.hatch.envs.docs.scripts]
+build = ["mkdocs build --clean --strict"]
+deploy = ["mkdocs gh-deploy {args:}"]
+serve = ["mkdocs serve --dev-addr localhost:8080 --livereload"]
+
+[tool.hatch.envs.gen]
+dependencies = [
+  "pip-tools~=7.1.0"
+]
+detached = false
+
+[tool.hatch.envs.gen.scripts]
+release = [
+  "npm install --prefix .github/semantic_release/",
+  "npx --prefix .github/semantic_release/ semantic-release {args:}"
+]
+reqs = "pip-compile {args:} --generate-hashes --output-file requirements.txt --all-extras"
+reqs-update = "pip-compile {args:} --upgrade --generate-hashes --output-file requirements.txt --all-extras"
+
+[tool.hatch.envs.lint]
+dependencies = [
+  "black>=23.1.0",
+  "mypy>=1.0.0",
+  "ruff>=0.0.243"
+]
+detached = true
+
+[tool.hatch.envs.lint.scripts]
+all = [
+  "style",
+  "typing"
+]
+fmt = [
+  "black {args:.}",
+  "ruff --fix {args:.}",
+  "style"
+]
+precommit = [
+  "pre-commit run --all-files"
+]
+style = [
+  "ruff {args:.}",
+  "black --check --diff {args:.}"
+]
+typing = "mypy --install-types --non-interactive {args:{{ cookiecutter.project_slug }} tests}"
+
+[tool.hatch.version]
+path = "{{ cookiecutter.project_slug }}/__about__.py"
+
+[[tool.mypy.overrides]]
+ignore_missing_imports = true
+module = [
+  "pytest.*"
 ]
 
-[tool.poetry.scripts]
-{{ cookiecutter.friendly_name }} = "{{ cookiecutter.project_slug }}._cli:command_line_interface"
+[tool.ruff]
+ignore = [
+  # Allow non-abstract empty methods in abstract base classes
+  "B027",
+  # Allow boolean positional values in function calls, like `dict.get(... True)`
+  "FBT003",
+  # Ignore checks for possible passwords
+  "S105",
+  "S106",
+  "S107",
+  # Ignore complexity
+  "C901",
+  "PLR0911",
+  "PLR0912",
+  "PLR0913",
+  "PLR0915"
+]
+line-length = 100
+select = [
+  "A",
+  "ARG",
+  "B",
+  "C",
+  "DTZ",
+  "E",
+  "EM",
+  "F",
+  "FBT",
+  "I",
+  "ICN",
+  "ISC",
+  "N",
+  "PLC",
+  "PLE",
+  "PLR",
+  "PLW",
+  "Q",
+  "RUF",
+  "S",
+  "T",
+  "TID",
+  "UP",
+  "W",
+  "YTT"
+]
+target-version = "py38"
+unfixable = [
+  # Don't touch unused imports
+  "F401"
+]
 
-[tool.poetry.urls]
-Changelog = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.repo_name }}/releases"
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.isort]
+known-first-party = ["{{ cookiecutter.project_slug }}"]
+
+[tool.ruff.per-file-ignores]
+# Tests can use magic values, assertions, and relative imports
+"tests/**/*" = ["PLR2004", "S101", "TID252"]
+
+[tool.ruff.pydocstyle]
+convention = "numpy"
