@@ -14,6 +14,7 @@ classifiers = [
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy"
 ]
@@ -62,7 +63,7 @@ parallel = true
 source_pkgs = ["{{ cookiecutter.project_slug }}", "tests"]
 
 [[tool.hatch.envs.all.matrix]]
-python = ["3.8", "3.9", "3.10", "3.11"]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
 [tool.hatch.envs.default]
 dependencies = [
@@ -116,8 +117,8 @@ release = [
   "npm install --prefix .github/semantic_release/",
   "npx --prefix .github/semantic_release/ semantic-release {args:}"
 ]
-reqs = "pip-compile {args:} --generate-hashes --output-file requirements.txt --all-extras"
-reqs-update = "pip-compile {args:} --upgrade --generate-hashes --output-file requirements.txt --all-extras"
+reqs = "pip-compile {args:} --generate-hashes --output-file requirements.txt"
+reqs-update = "pip-compile {args:} --upgrade --generate-hashes --output-file requirements.txt"
 
 [tool.hatch.envs.lint]
 dependencies = [
