@@ -101,5 +101,5 @@ Once the server is running, you can view the documentation at
 [pip-tools]: https://pip-tools.readthedocs.io/en/latest/
 [GitHub CLI]: https://cli.github.com/
 [localhost:8080/contributing]: http://localhost:8080/contributing
-[ruff]: httpe://ruff.io/
+[ruff]: https://docs.astral.sh/ruff/
 [mypy]: https://mypy.readthedocs.io/
