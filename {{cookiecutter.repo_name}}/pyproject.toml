@@ -118,7 +118,7 @@ reqs-update = "pip-compile {args:} --upgrade --generate-hashes --output-file req
 [tool.hatch.envs.lint]
 dependencies = [
   "mypy>=1.0.0",
-  "ruff>=0.0.243"
+  "ruff~=0.1.3"
 ]
 detached = true
 
