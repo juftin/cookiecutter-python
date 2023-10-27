@@ -29,7 +29,16 @@ python = "3.11"
 type = "virtual"
 
 [tool.hatch.envs.default.scripts]
+cov = [
+  "test-cov",
+  "cov-report"
+]
+cov-report = [
+  "- coverage combine",
+  "coverage report -m"
+]
 test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
 
 [tool.hatch.envs.docs]
 dependencies = [
@@ -44,6 +53,46 @@ detached = true
 build = ["mkdocs build --clean --strict"]
 deploy = ["mkdocs gh-deploy {args:}"]
 serve = ["mkdocs serve --dev-addr localhost:8080 --livereload"]
+
+[tool.hatch.envs.gen]
+dependencies = [
+  "pip-tools~=7.1.0"
+]
+detached = false
+
+[tool.hatch.envs.gen.scripts]
+release = [
+  "npm install --prefix .github/semantic_release/",
+  "npx --prefix .github/semantic_release/ semantic-release {args:}"
+]
+reqs = "pip-compile {args:} --generate-hashes --output-file requirements.txt"
+reqs-update = "pip-compile {args:} --upgrade --generate-hashes --output-file requirements.txt"
+
+[tool.hatch.envs.lint]
+dependencies = [
+  "mypy>=1.0.0",
+  "ruff>=0.0.243"
+]
+detached = true
+
+[tool.hatch.envs.lint.scripts]
+all = [
+  "style",
+  "typing"
+]
+fmt = [
+  "ruff format {args:.}",
+  "ruff --fix {args:.}",
+  "style"
+]
+precommit = [
+  "pre-commit run --all-files"
+]
+style = [
+  "ruff {args:.}",
+  "ruff format --check --diff {args:.}"
+]
+typing = "mypy --install-types --non-interactive {args:example_project tests}"
 
 [tool.ruff]
 ignore = [
