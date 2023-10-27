@@ -54,13 +54,19 @@
 
 ### Hatch Explanation
 
+Hatch is a Python package manager. It's most basic use is as a standardized build-system.
+However, hatch also has some extra features which this project takes advantage of.
+These features include virtual environment management and the organization of common
+scripts like linting and testing. All the operations in hatch take place in one
+of its managed virtual environments.
+
 Hatch has a variety of environments, to see them simply ask hatch:
 
 ```bash exec="on" result="markdown" source="tabbed-left" tabs="hatch CLI|Output"
 hatch env show
 ```
 
-That above command will tell you that there are five environments that
+That above command will tell you that there are four environments that
 you can use:
 
 -   `default`

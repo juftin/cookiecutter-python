@@ -83,7 +83,7 @@ hatch run docs:serve
 ```
 
 Once the server is running, you can view the documentation at
-[localhost:8080/contributing].
+[localhost:8080/contributing] or see a preview at [juftin.com/cookiecutter-python/contributing].
 
 [pre-commit]: https://pre-commit.com/
 [gitmoji]: https://gitmoji.dev/
@@ -103,3 +103,4 @@ Once the server is running, you can view the documentation at
 [localhost:8080/contributing]: http://localhost:8080/contributing
 [ruff]: https://docs.astral.sh/ruff/
 [mypy]: https://mypy.readthedocs.io/
+[juftin.com/cookiecutter-python/contributing]: https://juftin.com/cookiecutter-python/contributing/
