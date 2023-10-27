@@ -105,7 +105,6 @@ celerybeat.pid
 
 # Environments
 .env
-!{{cookiecutter.repo_name}}/.env
 .venv
 env/
 venv/
@@ -129,15 +128,11 @@ docs/source/_autosummary
 .dmypy.json
 dmypy.json
 
-# Pyre type checker
-.pyre/
-
 # Mac Files
 .DS_Store
 
 # IDE Files
 .idea/
 
-# Cookiecutter Examples
-example-project/
-!tests/example-project/
+# Node.js
+node_modules/

@@ -1,6 +1,6 @@
-# {{ cookiecutter.project_name }}
+# example-project
 
-{{ cookiecutter.project_short_description }}
+Brief description of the project
 
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
 [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-lightgreen?logo=pre-commit)](https://github.com/pre-commit/pre-commit)

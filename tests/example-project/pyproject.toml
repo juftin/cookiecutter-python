@@ -4,10 +4,10 @@ requires = ["hatchling"]
 
 [project]
 authors = [
-  {name = "{{ cookiecutter.full_name }}", email = "{{ cookiecutter.email }}"}
+  {name = "Justin Flannery", email = "juftin@juftin.com"}
 ]
 classifiers = [
-  "{{ cookiecutter.development_status }}",
+  "Development Status :: 1 - Planning",
   "Operating System :: OS Independent",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3.8",
@@ -21,26 +21,24 @@ classifiers = [
 dependencies = [
   "click>=8.0.1"
 ]
-description = "{{ cookiecutter.project_short_description }}"
+description = "Brief description of the project"
 dynamic = ["version"]
-{% if cookiecutter.license != 'UNLICENSED' -%}
-license = "{{ cookiecutter.license }}"
-{% endif -%}
-name = "{{ cookiecutter.friendly_name }}"
+license = "MIT"
+name = "example-project"
 readme = "README.md"
 requires-python = ">=3.8"
 
 [project.scripts]
-{{ cookiecutter.friendly_name }} = "{{ cookiecutter.project_slug }}.cli:cli"
+example-project = "example_project.cli:cli"
 
 [project.urls]
-Documentation = "https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.repo_name }}"
-Issues = "https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.repo_name }}/issues"
-Source = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.repo_name }}"
+Documentation = "https://juftin.github.io/example-project"
+Issues = "https://juftin.github.io/example-project/issues"
+Source = "https://github.com/juftin/example-project"
 
 [tool.coverage.paths]
-{{ cookiecutter.project_slug }} = ["{{ cookiecutter.project_slug }}", "*/{{ cookiecutter.repo_name }}/{{ cookiecutter.project_slug }}"]
-tests = ["tests", "*/{{ cookiecutter.repo_name }}/tests"]
+example_project = ["example_project", "*/example-project/example_project"]
+tests = ["tests", "*/example-project/tests"]
 
 [tool.coverage.report]
 exclude_lines = [
@@ -52,10 +50,10 @@ exclude_lines = [
 [tool.coverage.run]
 branch = true
 omit = [
-  "{{ cookiecutter.project_slug }}/__about__.py"
+  "example_project/__about__.py"
 ]
 parallel = true
-source_pkgs = ["{{ cookiecutter.project_slug }}", "tests"]
+source_pkgs = ["example_project", "tests"]
 
 [[tool.hatch.envs.all.matrix]]
 python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
@@ -72,7 +70,7 @@ post-install-commands = [
 pre-install-commands = [
   "pip install -q -r requirements.txt --no-deps"
 ]
-python = "{{ cookiecutter.default_python_version }}"
+python = "3.12"
 type = "virtual"
 
 [tool.hatch.envs.default.scripts]
@@ -139,10 +137,10 @@ style = [
   "ruff {args:.}",
   "ruff format --check --diff {args:.}"
 ]
-typing = "mypy --install-types --non-interactive {args:{{ cookiecutter.project_slug }} tests}"
+typing = "mypy --install-types --non-interactive {args:example_project tests}"
 
 [tool.hatch.version]
-path = "{{ cookiecutter.project_slug }}/__about__.py"
+path = "example_project/__about__.py"
 
 [[tool.mypy.overrides]]
 ignore_missing_imports = true
@@ -205,7 +203,7 @@ unfixable = [
 ban-relative-imports = "all"
 
 [tool.ruff.isort]
-known-first-party = ["{{ cookiecutter.project_slug }}"]
+known-first-party = ["example_project"]
 
 [tool.ruff.per-file-ignores]
 # Tests can use magic values, assertions, and relative imports

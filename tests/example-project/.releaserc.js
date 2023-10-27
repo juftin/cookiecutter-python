@@ -30,6 +30,32 @@ module.exports = {
                 },
             },
         ],
-        ["@semantic-release/github", {}],
+        [
+            "@semantic-release/exec",
+            {
+                prepareCmd: "hatch version ${nextRelease.version} && hatch build",
+            },
+        ],
+        [
+            "@semantic-release/git",
+            {
+                assets: ["pyproject.toml", "*/__about__.py"],
+                message:
+                    "🔖 example-project ${nextRelease.version}\n\n${nextRelease.notes}\n[skip ci]",
+            },
+        ],
+        [
+            "@semantic-release/github",
+            {
+                assets: [
+                    {
+                        path: "dist/*.whl",
+                    },
+                    {
+                        path: "dist/*.tar.gz",
+                    },
+                ],
+            },
+        ],
     ],
 };

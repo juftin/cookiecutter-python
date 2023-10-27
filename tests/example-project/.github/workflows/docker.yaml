@@ -4,7 +4,7 @@ on:
     pull_request:
         branches: ["**"]
         paths:
-            - {{ cookiecutter.project_slug }}/**
+            - example_project/**
             - pyproject.toml
             - .github/workflows/docker.yaml
             - Dockerfile
@@ -23,7 +23,7 @@ jobs:
         - name: Set up Python
           uses: actions/setup-python@v4
           with:
-              python-version: "{{ cookiecutter.default_python_version }}"
+              python-version: "3.12"
         - name: Install Dependencies
           run: |
               python -m pip install --upgrade pip
@@ -40,4 +40,4 @@ jobs:
           uses: docker/build-push-action@v5
           with:
               push: false
-              tags: {{ cookiecutter.github_username }}/${{"{{"}} env.PACKAGE_NAME {{"}}"}}:latest
+              tags: juftin/${{ env.PACKAGE_NAME }}:latest

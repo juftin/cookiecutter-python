@@ -9,19 +9,22 @@
 
 [juftin]'s personal [cookiecutter] template for Python projects.
 
+```shell
+cookiecutter gh:juftin/cookiecutter-python
+```
+
 ## Features
 
-- [hatch] for managing the project's virtual environment and development tools
-- [black] for code formatting
-- [ruff] for code linting
-- [mypy] for type checking
-- [pip-tools] for dependency management + lockfile
-- [pre-commit] for managing git hooks
-- [GitHub Actions] for CI/CD
-- [MkDocs] and [mkdocs-material] for documentation
-- [GitHub Pages] for hosting documentation
-- [semantic-release] and [gitmoji] for automated releases
-- Publishes to [PyPI] and [Docker Hub]
+-   [hatch] for managing the project's virtual environment and development tools
+-   [ruff] for code formatting and linting
+-   [mypy] for type checking
+-   [pip-tools] for dependency management + lockfile
+-   [pre-commit] for managing git hooks
+-   [GitHub Actions] for CI/CD
+-   [MkDocs] and [mkdocs-material] for documentation
+-   [GitHub Pages] for hosting documentation
+-   [semantic-release] and [gitmoji] for automated releases
+-   Publishes to [PyPI] and [Docker Hub]
 
 ## Quickstart Guide
 
@@ -65,13 +68,10 @@ This project uses GitHub Actions to deploy releases, documentation, and
 to publish artifacts to PyPI / Docker Hub. You will need to create
 secrets in your GitHub repository to enable these features.
 
-These secrets can be found in the `.env` file at the root of the project.
-Once you have created the secrets on the `.env` file, you can run the
-[GitHub CLI] to create the secrets in your repository:
-
-```shell
-gh secret set --env-file .env
-```
+-   `PERSONAL_ACCESS_TOKEN`: A GitHub Personal Access Token with `repo` permissions
+-   `PYPI_TOKEN`: Your PyPI token (optional)
+-   `DOCKER_USERNAME`: Your Docker Hub username (optional)
+-   `DOCKER_TOKEN`: Your Docker Hub token (optional)
 
 #### Developing
 
@@ -103,4 +103,3 @@ Once the server is running, you can view the documentation at
 [localhost:8080/contributing]: http://localhost:8080/contributing
 [ruff]: httpe://ruff.io/
 [mypy]: https://mypy.readthedocs.io/
-[black]: https://black.readthedocs.io/en/stable/

@@ -1,0 +1,106 @@
+[build-system]
+build-backend = "hatchling.build"
+requires = ["hatchling"]
+
+[project]
+authors = [
+  {name = "Justin Flannery", email = "juftin@juftin.com"}
+]
+description = "Brief description of the project"
+license = "MIT"
+name = "example-project"
+readme = "README.md"
+requires-python = ">=3.8"
+version = "0.0.0"
+dependencies = [
+  "cookiecutter~=2.4.0",
+]
+
+[tool.hatch.envs.default]
+dependencies = [
+  "coverage[toml]>=6.5",
+  "pytest"
+]
+path = ".venv"
+post-install-commands = [
+  "pre-commit install"
+]
+python = "3.11"
+type = "virtual"
+
+[tool.hatch.envs.default.scripts]
+test = "pytest {args:tests}"
+
+[tool.hatch.envs.docs]
+dependencies = [
+  "mkdocs~=1.5.2",
+  "mkdocs-material~=9.2.3",
+  "mkdocstrings~=0.22.0",
+  "markdown-exec[ansi]~=1.6.0"
+]
+detached = true
+
+[tool.hatch.envs.docs.scripts]
+build = ["mkdocs build --clean --strict"]
+deploy = ["mkdocs gh-deploy {args:}"]
+serve = ["mkdocs serve --dev-addr localhost:8080 --livereload"]
+
+[tool.ruff]
+ignore = [
+  # Allow non-abstract empty methods in abstract base classes
+  "B027",
+  # Allow boolean positional values in function calls, like `dict.get(... True)`
+  "FBT003",
+  # Ignore checks for possible passwords
+  "S105",
+  "S106",
+  "S107",
+  # Ignore complexity
+  "C901",
+  "PLR0911",
+  "PLR0912",
+  "PLR0913",
+  "PLR0915"
+]
+line-length = 100
+select = [
+  "A",
+  "ARG",
+  "B",
+  "C",
+  "DTZ",
+  "E",
+  "EM",
+  "F",
+  "FBT",
+  "I",
+  "ICN",
+  "ISC",
+  "N",
+  "PLC",
+  "PLE",
+  "PLR",
+  "PLW",
+  "Q",
+  "RUF",
+  "S",
+  "T",
+  "TID",
+  "UP",
+  "W",
+  "YTT"
+]
+target-version = "py38"
+unfixable = [
+  # Don't touch unused imports
+  "F401"
+]
+
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.isort]
+known-first-party = ["example_project"]
+
+[tool.ruff.pydocstyle]
+convention = "numpy"
