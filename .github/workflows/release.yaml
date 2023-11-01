@@ -16,7 +16,7 @@ jobs:
                   fetch-depth: 2
                   ref: main
             - name: Setup Node.js
-              uses: actions/setup-node@v3
+              uses: actions/setup-node@v4
             - name: Release
               run: |
                   npm install --prefix .github/semantic_release/
