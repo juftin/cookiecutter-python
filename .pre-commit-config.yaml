@@ -32,3 +32,13 @@ repos:
       hooks:
           - id: pretty-format-toml
             args: [--autofix]
+
+    - repo: local
+      hooks:
+          - id: test
+            name: test
+            description: Runs Unit Tests
+            entry: hatch run test
+            language: system
+            pass_filenames: false
+            require_serial: false
