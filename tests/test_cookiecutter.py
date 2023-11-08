@@ -3,32 +3,34 @@ CookieCutter Tests
 """
 
 import pathlib
-import tempfile
+import shutil
 
 import pytest
 from cookiecutter.main import cookiecutter
 
 
-@pytest.fixture(scope="session", autouse=True)
+@pytest.fixture
 def cookiecutter_dir() -> pathlib.Path:
     """
     CookieCutter Tests
     """
-    with tempfile.TemporaryDirectory() as tmpdir:
-        tmp_path = pathlib.Path(tmpdir)
-        _this_file = pathlib.Path(__file__).resolve()
-        cookiecutter_dir = _this_file.parent.parent
-        cookiecutter(
-            template=str(cookiecutter_dir),
-            output_dir=str(tmp_path),
-            no_input=True,
-            extra_context={
-                "build_docker_image": True,
-                "publish_to_pypi": True,
-                "publish_to_docker_hub": True,
-            }
-        )
-        yield tmp_path / "example-project"
+    _this_file = pathlib.Path(__file__).resolve()
+    cookiecutter_dir = _this_file.parent.parent
+    test_dir = cookiecutter_dir / "tests"
+    output_dir = test_dir / "output"
+    output_repo = output_dir / "example-project"
+    shutil.rmtree(output_dir, ignore_errors=True)
+    cookiecutter(
+        template=str(cookiecutter_dir),
+        output_dir=str(output_dir),
+        no_input=True,
+        extra_context={
+            "build_docker_image": True,
+            "publish_to_pypi": True,
+            "publish_to_docker_hub": True,
+        }
+    )
+    return output_repo
 
 
 def test_cookiecutter_dir(cookiecutter_dir: pathlib.Path) -> None:
@@ -48,7 +50,7 @@ def test_cookiecutter_dir(cookiecutter_dir: pathlib.Path) -> None:
             try:
                 assert expected == actual
             except AssertionError as e:
-                msg = f"Unexpected File Difference - {test_path}"
+                msg = f"Unexpected File Difference - {test_path} - {generated_file}"
                 raise ValueError(msg) from e
             file_counter += 1
     assert file_counter > 0

@@ -141,3 +141,4 @@ dmypy.json
 # Cookiecutter Examples
 example-project/
 !tests/example-project/
+!tests/example-project/.env

@@ -1,6 +1,10 @@
 default_stages: [commit]
 fail_fast: false
-exclude: "{{cookiecutter.repo_name}}"
+exclude: |
+    (?x)(
+      {{cookiecutter.repo_name}}/|
+      test/example-project/
+    )
 repos:
     - repo: https://github.com/pre-commit/pre-commit-hooks
       rev: v4.5.0
@@ -23,3 +27,8 @@ repos:
                 (?x)(
                   .github/semantic_release/release_notes.hbs
                 )
+    - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+      rev: v2.11.0
+      hooks:
+          - id: pretty-format-toml
+            args: [--autofix]
