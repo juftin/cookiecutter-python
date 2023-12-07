@@ -62,6 +62,18 @@ git add .
 git commit
 ```
 
+Also, make sure to commit your lockfiles, they're created at `requirements.txt`
+and in the `requirements` directory. They will be created automatically
+when you run a `hatch` command in the respective environment for the first time.
+
+```shell
+hatch run cov
+hatch run lint:all
+hatch run docs:serve
+git add requirements.txt requirements/
+git commit -m "🔐 add lockfiles"
+```
+
 #### Secrets Init
 
 This project uses GitHub Actions to deploy releases, documentation, and
