@@ -18,7 +18,7 @@ cookiecutter gh:juftin/cookiecutter-python
 -   [hatch] for managing the project's virtual environment and development tools
 -   [ruff] for code formatting and linting
 -   [mypy] for type checking
--   [pip-tools] for dependency management + lockfile
+-   [hatch-pip-compile] for dependency management + lockfiles
 -   [pre-commit] for managing git hooks
 -   [GitHub Actions] for CI/CD
 -   [MkDocs] and [mkdocs-material] for documentation
@@ -85,22 +85,22 @@ hatch run docs:serve
 Once the server is running, you can view the documentation at
 [localhost:8080/contributing] or see a preview at [juftin.com/cookiecutter-python/contributing].
 
-[pre-commit]: https://pre-commit.com/
-[gitmoji]: https://gitmoji.dev/
+[pre-commit]: https://github.com/pre-commit/pre-commit
+[gitmoji]: https://gitmoji.dev
 [semantic-release]: https://github.com/semantic-release/semantic-release
 [Cookiecutter]: https://github.com/cookiecutter/cookiecutter
-[hatch]: https://hatch.pypa.io/latest/
-[MkDocs]: https://www.mkdocs.org/
-[mkdocs-material]: https://squidfunk.github.io/mkdocs-material/
+[hatch]: https://github.com/pypa/hatch
+[MkDocs]: https://github.com/mkdocs/mkdocs
+[mkdocs-material]: https://github.com/squidfunk/mkdocs-material
 [Github Actions]: https://github.com/features/actions
 [Github Pages]: https://pages.github.com/
 [juftin]: https://github.com/juftin
-[pipx]: https://pypa.github.io/pipx/
+[pipx]: https://github.com/pypa/pipx
 [PyPI]: https://pypi.org/
 [Docker Hub]: https://hub.docker.com/
-[pip-tools]: https://pip-tools.readthedocs.io/en/latest/
+[hatch-pip-compile]: https://github.com/juftin/hatch-pip-compile
 [GitHub CLI]: https://cli.github.com/
 [localhost:8080/contributing]: http://localhost:8080/contributing
-[ruff]: https://docs.astral.sh/ruff/
-[mypy]: https://mypy.readthedocs.io/
+[ruff]: https://github.com/astral/ruff/
+[mypy]: https://github.com/python/mypy
 [juftin.com/cookiecutter-python/contributing]: https://juftin.com/cookiecutter-python/contributing/

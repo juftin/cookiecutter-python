@@ -18,9 +18,7 @@ classifiers = [
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy"
 ]
-dependencies = [
-  "click>=8.0.1"
-]
+dependencies = []
 description = "Brief description of the project"
 dynamic = ["version"]
 license = "MIT"
@@ -33,7 +31,7 @@ example-project = "example_project.cli:cli"
 
 [project.urls]
 Documentation = "https://juftin.github.io/example-project"
-Issues = "https://juftin.github.io/example-project/issues"
+Issues = "https://github.com/juftin/example-project/issues"
 Source = "https://github.com/juftin/example-project"
 
 [tool.coverage.paths]
@@ -59,40 +57,25 @@ source_pkgs = ["example_project", "tests"]
 python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
 [tool.hatch.envs.default]
-dependencies = [
-  "coverage[toml]>=6.5",
-  "pytest"
-]
-path = ".venv"
+pip-compile-constraint = "default"
 post-install-commands = [
-  "pre-commit install"
+  "- pre-commit install"
 ]
-pre-install-commands = [
-  "pip install -q -r requirements.txt --no-deps"
-]
-python = "3.12"
-type = "virtual"
+type = "pip-compile"
 
 [tool.hatch.envs.default.scripts]
-cov = [
-  "test-cov",
-  "cov-report"
-]
-cov-report = [
-  "- coverage combine",
-  "coverage report -m"
-]
-test = "pytest {args:tests}"
-test-cov = "coverage run -m pytest {args:tests}"
+cov = "hatch run test:cov"
+test = "hatch run test:test"
 
 [tool.hatch.envs.docs]
 dependencies = [
-  "mkdocs~=1.5.2",
-  "mkdocs-material~=9.2.3",
-  "mkdocstrings~=0.22.0",
-  "markdown-exec[ansi]~=1.6.0"
+  "mkdocs",
+  "mkdocs-material",
+  "mkdocstrings",
+  "markdown-exec[ansi]"
 ]
 detached = true
+type = "pip-compile"
 
 [tool.hatch.envs.docs.scripts]
 build = ["mkdocs build --clean --strict"]
@@ -100,9 +83,6 @@ deploy = ["mkdocs gh-deploy {args:}"]
 serve = ["mkdocs serve --dev-addr localhost:8080 --livereload"]
 
 [tool.hatch.envs.gen]
-dependencies = [
-  "pip-tools~=7.1.0"
-]
 detached = false
 
 [tool.hatch.envs.gen.scripts]
@@ -110,15 +90,14 @@ release = [
   "npm install --prefix .github/semantic_release/",
   "npx --prefix .github/semantic_release/ semantic-release {args:}"
 ]
-reqs = "pip-compile {args:} --generate-hashes --output-file requirements.txt"
-reqs-update = "pip-compile {args:} --upgrade --generate-hashes --output-file requirements.txt"
 
 [tool.hatch.envs.lint]
 dependencies = [
   "mypy>=1.6.1",
-  "ruff~=0.1.4"
+  "ruff~=0.1.7"
 ]
 detached = true
+type = "pip-compile"
 
 [tool.hatch.envs.lint.scripts]
 all = [
@@ -138,6 +117,24 @@ style = [
   "ruff format --check --diff {args:.}"
 ]
 typing = "mypy --install-types --non-interactive {args:example_project tests}"
+
+[tool.hatch.envs.test]
+dependencies = [
+  "coverage[toml]>=6.5",
+  "pytest"
+]
+
+[tool.hatch.envs.test.scripts]
+cov = [
+  "test-cov",
+  "cov-report"
+]
+cov-report = [
+  "- coverage combine",
+  "coverage report -m"
+]
+test = "pytest {args:tests}"
+test-cov = "coverage run -m pytest {args:tests}"
 
 [tool.hatch.version]
 path = "example_project/__about__.py"

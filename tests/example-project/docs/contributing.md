@@ -66,13 +66,14 @@ Hatch has a variety of environments, to see them simply ask hatch:
 hatch env show
 ```
 
-That above command will tell you that there are four environments that
+That above command will tell you that there are five environments that
 you can use:
 
 -   `default`
 -   `docs`
 -   `gen`
 -   `lint`
+-   `test`
 
 Each of these environments has a set of commands that you can run.
 To see the commands for a specific environment, run:
@@ -84,9 +85,7 @@ hatch env show default
 Here we can see that the `default` environment has the following commands:
 
 -   `cov`
--   `cov-report`
 -   `test`
--   `test-cov`
 
 The one that we're interested in is `cov`, which will run the tests
 for the project.
@@ -153,8 +152,7 @@ commit message might look like:
 💥 Breaking Change Description
 ```
 
-Other commits that don't trigger a release, but get included in the
-release notes might look like:
+Other commits that don't trigger a release might look like this:
 
 ```text
 📝 Documentation Update Description
