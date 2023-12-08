@@ -53,8 +53,8 @@ omit = [
 parallel = true
 source_pkgs = ["example_project", "tests"]
 
-[[tool.hatch.envs.all.matrix]]
-python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
+[tool.hatch.env]
+requires = ["hatch-pip-compile"]
 
 [tool.hatch.envs.default]
 pip-compile-constraint = "default"
