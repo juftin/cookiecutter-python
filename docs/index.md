@@ -85,6 +85,13 @@ secrets in your GitHub repository to enable these features.
 -   `DOCKER_USERNAME`: Your Docker Hub username (optional)
 -   `DOCKER_TOKEN`: Your Docker Hub token (optional)
 
+A `.env` file is provided in the project root for local development, to
+sync your secrets to GitHub, run the following command with the [GitHub CLI]:
+
+```shell
+gh secret set --env-file .env
+```
+
 #### Developing
 
 This project generates its own documentation for how to use the
