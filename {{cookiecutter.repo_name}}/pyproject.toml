@@ -28,9 +28,6 @@ name = "{{ cookiecutter.friendly_name }}"
 readme = "README.md"
 requires-python = ">=3.8"
 
-[project.scripts]
-{{ cookiecutter.friendly_name }} = "{{ cookiecutter.project_slug }}.cli:cli"
-
 [project.urls]
 Documentation = "https://{{ cookiecutter.github_username }}.github.io/{{ cookiecutter.repo_name }}"
 Issues = "https://github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.repo_name }}/issues"

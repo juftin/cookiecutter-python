@@ -26,9 +26,6 @@ name = "example-project"
 readme = "README.md"
 requires-python = ">=3.8"
 
-[project.scripts]
-example-project = "example_project.cli:cli"
-
 [project.urls]
 Documentation = "https://juftin.github.io/example-project"
 Issues = "https://github.com/juftin/example-project/issues"
