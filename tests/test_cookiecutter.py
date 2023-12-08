@@ -28,7 +28,7 @@ def cookiecutter_dir() -> pathlib.Path:
             "build_docker_image": True,
             "publish_to_pypi": True,
             "publish_to_docker_hub": True,
-        }
+        },
     )
     return output_repo
 
@@ -37,7 +37,9 @@ def test_cookiecutter_dir(cookiecutter_dir: pathlib.Path) -> None:
     """
     Test file content equality
     """
-    all_generated_files = list(cookiecutter_dir.rglob("*"))
+    all_generated_files = filter(
+        lambda f: "__pycache__" not in f.parts, cookiecutter_dir.rglob("*")
+    )
     test_files = pathlib.Path(__file__).parent / "example-project"
     file_counter = 0
     for generated_file in all_generated_files:
@@ -61,6 +63,13 @@ def test_same_files(cookiecutter_dir: pathlib.Path) -> None:
     Test file name / number equality
     """
     test_dir = pathlib.Path(__file__).parent / "example-project"
-    all_generated_files = set(f.relative_to(cookiecutter_dir) for f in cookiecutter_dir.rglob("*"))
-    all_test_files = set(f.relative_to(test_dir) for f in test_dir.rglob("*"))
+    all_generated_files = set(
+        f.relative_to(cookiecutter_dir)
+        for f in cookiecutter_dir.rglob("*")
+        if "__pycache__" not in f.parts
+    )
+    all_test_files = set(
+        f.relative_to(test_dir) for f in test_dir.rglob("*") if "__pycache__" not in f.parts
+    )
+
     assert all_generated_files == all_test_files

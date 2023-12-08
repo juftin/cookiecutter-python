@@ -2,7 +2,7 @@
 
 site_name: {{ cookiecutter.friendly_name }}
 nav:
-    - index.md
+    - Home 🏠: index.md
     - Contributing 🤝: contributing.md
 theme:
     favicon: {{ cookiecutter.favicon }}

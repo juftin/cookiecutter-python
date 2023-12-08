@@ -2,7 +2,7 @@
 
 site_name: example-project
 nav:
-    - index.md
+    - Home 🏠: index.md
     - Contributing 🤝: contributing.md
 theme:
     favicon: https://juftin.com/favicon.ico
