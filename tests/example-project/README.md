@@ -12,9 +12,3 @@ Brief description of the project
   <a href="https://github.com/semantic-release/semantic-release"><img src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" alt="semantic-release"></a>
   <a href="https://gitmoji.dev"><img src="https://img.shields.io/badge/gitmoji-%20😜%20😍-FFDD67.svg" alt="Gitmoji"></a>
 </p>
-
-#### Check Out the [Docs](https://juftin.github.io/example-project/)
-
-#### Looking to contribute? See the [Contributing Guide](https://juftin.github.io/example-project/contributing)
-
-#### See the [Changelog](https://github.com/juftin/example-project/releases)
