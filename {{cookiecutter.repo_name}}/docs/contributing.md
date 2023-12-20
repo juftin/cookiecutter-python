@@ -2,13 +2,13 @@
 
 ## Environment Setup
 
-!!! tip "pipx"
-
-    This documentaion uses [pipx] to
-    install and manage non-project command line tools like `hatch` and
-    `pre-commit`. If you don't already have `pipx` installed, make sure to
-    see their [documentation](https://pypa.github.io/pipx/installation/).
-    If you prefer not to use `pipx`, you can use `pip` instead.
+> TIP: **pipx**
+>
+> This documentaion uses [pipx] to
+> install and manage non-project command line tools like `hatch` and
+> `pre-commit`. If you don't already have `pipx` installed, make sure to
+> see their [documentation](https://pypa.github.io/pipx/installation/).
+> If you prefer not to use `pipx`, you can use `pip` instead.
 
 1.  Install [hatch](https://hatch.pypa.io/latest/)
 
@@ -16,11 +16,11 @@
     pipx install hatch
     ```
 
-    !!! note "pre-commit"
-
-        Hatch will attempt to set up pre-commit hooks for you using
-        [pre-commit]. If you don't already,
-        make sure to install pre-commit as well: `pipx install pre-commit`
+    > NOTE: **pre-commit**
+    >
+    > Hatch will attempt to set up pre-commit hooks for you using
+    > [pre-commit]. If you don't already,
+    > make sure to install pre-commit as well: `pipx install pre-commit`
 
 2.  Build the Virtual Environment
 
@@ -54,7 +54,7 @@
 
 ### Hatch Explanation
 
-Hatch is a Python package manager. It's most basic use is as a standardized build-system.
+Hatch is a Python package manager. Its most basic use is as a standardized build-system.
 However, hatch also has some extra features which this project takes advantage of.
 These features include virtual environment management and the organization of common
 scripts like linting and testing. All the operations in hatch take place in one

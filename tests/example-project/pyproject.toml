@@ -51,7 +51,17 @@ parallel = true
 source_pkgs = ["example_project", "tests"]
 
 [tool.hatch.env]
-requires = ["hatch-pip-compile"]
+requires = ["hatch-pip-compile", "hatch-mkdocs"]
+
+[tool.hatch.env.collectors.mkdocs.docs]
+path = "mkdocs.yaml"
+
+[tool.hatch.envs.all]
+pip-compile-constraint = ""
+template = "test"
+
+[[tool.hatch.envs.all.matrix]]
+python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
 
 [tool.hatch.envs.default]
 pip-compile-constraint = "default"
@@ -65,22 +75,13 @@ cov = "hatch run test:cov"
 test = "hatch run test:test"
 
 [tool.hatch.envs.docs]
-dependencies = [
-  "mkdocs",
-  "mkdocs-material",
-  "mkdocstrings",
-  "markdown-exec[ansi]"
-]
-detached = true
+detached = false
+pip-compile-constraint = "default"
+template = "docs"
 type = "pip-compile"
 
-[tool.hatch.envs.docs.scripts]
-build = ["mkdocs build --clean --strict"]
-deploy = ["mkdocs gh-deploy {args:}"]
-serve = ["mkdocs serve --dev-addr localhost:8080 --livereload"]
-
 [tool.hatch.envs.gen]
-detached = false
+detached = true
 
 [tool.hatch.envs.gen.scripts]
 release = [
@@ -117,37 +118,29 @@ typing = "mypy --install-types --non-interactive {args:example_project tests}"
 
 [tool.hatch.envs.test]
 dependencies = [
-  "coverage[toml]>=6.5",
-  "pytest"
+  "pytest",
+  "pytest-cov"
 ]
 
 [tool.hatch.envs.test.scripts]
-cov = [
-  "test-cov",
-  "cov-report"
-]
-cov-report = [
-  "- coverage combine",
-  "coverage report -m"
-]
+cov = "pytest --cov --cov-config=pyproject.toml {args:tests}"
 test = "pytest {args:tests}"
-test-cov = "coverage run -m pytest {args:tests}"
 
 [tool.hatch.version]
 path = "example_project/__about__.py"
 
-[[tool.mypy.overrides]]
+[tool.mypy]
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_untyped_defs = true
+follow_imports = "silent"
 ignore_missing_imports = true
-module = [
-  "pytest.*"
-]
+no_implicit_reexport = true
+warn_redundant_casts = true
+warn_unused_ignores = true
 
 [tool.ruff]
 ignore = [
-  # Allow non-abstract empty methods in abstract base classes
-  "B027",
-  # Allow boolean positional values in function calls, like `dict.get(... True)`
-  "FBT003",
   # Ignore checks for possible passwords
   "S105",
   "S106",
@@ -157,9 +150,17 @@ ignore = [
   "PLR0911",
   "PLR0912",
   "PLR0913",
-  "PLR0915"
+  "PLR0915",
+  # Boolean-typed positional argument in function definition
+  "FBT001",
+  # Boolean default positional argument in function definition
+  "FBT002",
+  # Allow boolean positional values in function calls, like `dict.get(... True)`
+  "FBT003",
+  # Exception must not use a string literal, assign to variable first
+  "EM101"
 ]
-line-length = 100
+line-length = 88
 select = [
   "A",  # flake8-builtins
   "ARG",  # flake8-unused-arguments
@@ -187,10 +188,6 @@ select = [
   "YTT"  # flake8-2020
 ]
 target-version = "py38"
-unfixable = [
-  # Don't touch unused imports
-  "F401"
-]
 
 [tool.ruff.flake8-tidy-imports]
 ban-relative-imports = "all"
