@@ -55,6 +55,10 @@ jobs:
                   hatch --version
             - name: Create Virtual Environment
               run: hatch env create docs
+            - name: Set Up GitHub Actions User
+              run: |
+                  git config user.name "github-actions[bot]"
+                  git config user.email "github-actions[bot]@users.noreply.github.com"
             - name: Build Site
               run: hatch run docs:build
             - name: Setup GitHub Pages
