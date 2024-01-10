@@ -32,7 +32,7 @@ repo_name: example-project
 edit_uri: blob/main/docs/
 site_author: juftin
 remote_branch: gh-pages
-copyright: Copyright © 2023 Justin Flannery
+copyright: Copyright © 2024 Justin Flannery
 extra:
     generator: false
 exclude_docs: |
