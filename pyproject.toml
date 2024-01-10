@@ -6,9 +6,6 @@ requires = ["hatchling"]
 authors = [
   {name = "Justin Flannery", email = "juftin@juftin.com"}
 ]
-dependencies = [
-  "cookiecutter~=2.4.0"
-]
 description = "Brief description of the project"
 license = "MIT"
 name = "example-project"
@@ -18,6 +15,7 @@ version = "0.0.0"
 
 [tool.hatch.envs.default]
 dependencies = [
+  "cookiecutter~=2.4.0",
   "coverage[toml]>=6.5",
   "pytest"
 ]
@@ -26,6 +24,7 @@ post-install-commands = [
   "pre-commit install"
 ]
 python = "3.11"
+skip-install = true
 type = "virtual"
 
 [tool.hatch.envs.default.scripts]
