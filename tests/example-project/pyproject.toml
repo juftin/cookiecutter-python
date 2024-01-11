@@ -51,6 +51,13 @@ omit = [
 parallel = true
 source_pkgs = ["example_project", "tests"]
 
+[tool.cruft]
+skip = [
+  "example_project/__about__.py",
+  "example_project/__init__.py",
+  "tests/"
+]
+
 [tool.hatch.env]
 requires = ["hatch-pip-compile", "hatch-mkdocs"]
 

@@ -53,6 +53,13 @@ omit = [
 parallel = true
 source_pkgs = ["{{ cookiecutter.project_slug }}", "tests"]
 
+[tool.cruft]
+skip = [
+  "{{ cookiecutter.project_slug }}/__about__.py",
+  "{{ cookiecutter.project_slug }}/__init__.py",
+  "tests/"
+]
+
 [tool.hatch.env]
 requires = ["hatch-pip-compile", "hatch-mkdocs"]
 
