@@ -28,8 +28,12 @@
     hatch env create
     ```
 
-3.  If you need to, you can link hatch's virtual environment to your IDE.
-    It's located in the `.venv` directory at the root of the project.
+3.  If you need to, you can link a hatch virtual environment to your IDE.
+    They can be located by name with the `env find` command:
+
+    ```shell
+    hatch env find default
+    ```
 
 4.  Activate the Virtual Environment
 
@@ -41,16 +45,15 @@
 
 ### Hatch Cheat Sheet
 
-| Command Description            | Command                     | Notes                                                      |
-| ------------------------------ | --------------------------- | ---------------------------------------------------------- |
-| Run Tests                      | `hatch run cov`             | Runs tests with `pytest` and `coverage`                    |
-| Run Formatting                 | `hatch run lint:fmt`        | Runs `ruff` code formatter                                 |
-| Run Linting                    | `hatch run lint:all`        | Runs `ruff` and `mypy` linters / type checkers             |
-| Run Type Checking              | `hatch run lint:typing`     | Runs `mypy` type checker                                   |
-| Update Requirements Lock Files | `hatch run gen:reqs`        | Updating lock file using `pip-compile`                     |
-| Upgrade Dependencies           | `hatch run gen:reqs-update` | Updating lock file using `pip-compile` and `--update` flag |
-| Serve the Documentation        | `hatch run docs:serve`      | Serve the documentation using MkDocs                       |
-| Run the `pre-commit` Hooks     | `hatch run lint:precommit`  | Runs the `pre-commit` hooks on all files                   |
+| Command Description        | Command                    | Notes                                          |
+| -------------------------- | -------------------------- | ---------------------------------------------- |
+| Run Tests                  | `hatch run cov`            | Runs tests with `pytest` and `coverage`        |
+| Run Formatting             | `hatch run lint:fmt`       | Runs `ruff` code formatter                     |
+| Run Linting                | `hatch run lint:style`     | Runs `ruff` code linter                        |
+| Run Type Checking          | `hatch run lint:typing`    | Runs `mypy` type checker                       |
+| Run All Static Analysis    | `hatch run lint:all`       | Runs `ruff` and `mypy` linters / type checkers |
+| Serve the Documentation    | `hatch run docs:serve`     | Serve the documentation using MkDocs           |
+| Run the `pre-commit` Hooks | `hatch run lint:precommit` | Runs the `pre-commit` hooks on all files       |
 
 ### Hatch Explanation
 

@@ -1,17 +1,18 @@
 name: Tests
-
 on:
     push:
         branches:
             - main
         paths:
             - example_project/**
+            - tests/**
             - pyproject.toml
             - .github/workflows/tests.yaml
     pull_request:
         branches: ["**"]
         paths:
             - example_project/**
+            - tests/**
             - pyproject.toml
             - .github/workflows/tests.yaml
     schedule:
@@ -45,6 +46,8 @@ jobs:
                   python -m pip install -q --upgrade pip wheel
                   python -m pip install -q hatch pre-commit
                   hatch --version
+            - name: Create Environment
+              run: hatch --env all run +py=${{ matrix.python }} -- python --version
             - name: Test Suite
               run: |
                   echo "::add-matcher::.github/workflows/matchers/python.json"

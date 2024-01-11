@@ -1,5 +1,4 @@
 name: Docker CI/CD
-
 on:
     pull_request:
         branches: ["**"]
@@ -11,6 +10,9 @@ on:
 jobs:
     docker-ci-test:
     runs-on: ubuntu-latest
+    concurrency:
+        group: ${{ github.workflow }}-${{ github.ref }}
+        cancel-in-progress: true
     steps:
         - name: Set up Github Workspace
           uses: actions/checkout@v4

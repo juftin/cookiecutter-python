@@ -1,15 +1,16 @@
 name: Publishing
-
 on:
     release:
         types:
             - published
-
 jobs:
     pypi-publish:
         name: PyPI
         if: github.repository_owner == 'juftin'
         runs-on: ubuntu-latest
+        concurrency:
+            group: ${{ github.workflow }}-${{ github.job }}
+            cancel-in-progress: false
         steps:
             - name: Check out the repository
               uses: actions/checkout@v4
@@ -37,6 +38,9 @@ jobs:
         name: docker-hub
         if: github.repository_owner == 'juftin'
         runs-on: ubuntu-latest
+        concurrency:
+            group: ${{ github.workflow }}-${{ github.job }}
+            cancel-in-progress: false
         steps:
             - name: Check out the repository
               uses: actions/checkout@v4
