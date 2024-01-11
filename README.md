@@ -3,7 +3,9 @@
     cookiecutter-python
   </h1>
   <p style="margin-bottom: 0;" align="center">
-    <img src="https://i.imgur.com/g8yxsTP.png" width="400">
+    <a href="https://github.com/juftin/cookiecutter-python">
+      <img src="https://i.imgur.com/g8yxsTP.png" width="400">
+    </a>
   </p>
 </div>
 
@@ -92,6 +94,28 @@ sync your secrets to GitHub, run the following command with the [GitHub CLI]:
 gh secret set --env-file .env
 ```
 
+#### cruft
+
+[cruft] is a tool for updating cookiecutter templates after they've been
+generated. To use cruft, install it with `pipx`:
+
+```shell
+pipx install cruft
+```
+
+Then, use `cruft` instead of `cookiecutter` to generate your project:
+
+```shell
+cruft create https://github.com/juftin/cookiecutter-python
+```
+
+Later, if you want to update your project with the latest changes from
+the template:
+
+```shell
+cruft update
+```
+
 #### Developing
 
 This project generates its own documentation for how to use the
@@ -123,3 +147,4 @@ Once the server is running, you can view the documentation at
 [ruff]: https://github.com/astral/ruff/
 [mypy]: https://github.com/python/mypy
 [juftin.com/cookiecutter-python/contributing]: https://juftin.com/cookiecutter-python/contributing/
+[cruft]: https://github.com/cruft/cruft
