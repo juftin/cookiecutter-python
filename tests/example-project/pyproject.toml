@@ -1,39 +1,64 @@
 [build-system]
-build-backend = "hatchling.build"
-requires = ["hatchling"]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
 
 [project]
+name = "example-project"
+version = "0.1.0"
+description = "Brief description of the project"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []
 authors = [
   {name = "Justin Flannery", email = "juftin@juftin.com"}
 ]
+license = "MIT"
 classifiers = [
   "Development Status :: 1 - Planning",
   "Operating System :: OS Independent",
   "Programming Language :: Python",
-  "Programming Language :: Python :: 3.8",
   "Programming Language :: Python :: 3.9",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Programming Language :: Python :: Implementation :: CPython",
   "Programming Language :: Python :: Implementation :: PyPy"
 ]
-dependencies = []
-description = "Brief description of the project"
-dynamic = ["version"]
-license = "MIT"
-name = "example-project"
-readme = "README.md"
-requires-python = ">=3.8"
 
 [project.urls]
 Documentation = "https://juftin.github.io/example-project"
 Issues = "https://github.com/juftin/example-project/issues"
 Source = "https://github.com/juftin/example-project"
 
-[tool.coverage.paths]
-example_project = ["example_project", "*/example-project/example_project"]
-tests = ["tests", "*/example-project/tests"]
+[dependency-groups]
+dev = [
+  "pytest",
+  "pytest-cov",
+  "mypy>=1,<2",
+  "ruff~=0.12.10"
+]
+docs = [
+  "mkdocs~=1.6.1",
+  "mkdocs-material~=9.6.18",
+  "markdown-callouts~=0.4.0",
+  "markdown-exec~=1.11.0",
+  "mkdocs-section-index~=0.3.10",
+  "mkdocs-autorefs~=1.4.3",
+  "mkdocstrings[python]~=0.30.0",
+  "mkdocs-gen-files~=0.5.0",
+  "mkdocs-literate-nav~=0.6.2",
+  "pymdown-extensions~=10.16.1"
+]
+
+[tool.pytest.ini_options]
+addopts = [
+  "-v",
+  "--cov=src/example_project",
+  "--cov-report=term-missing",
+  "--cov-report=xml:coverage.xml",
+  "--junitxml=pytest.xml"
+]
 
 [tool.coverage.report]
 exclude_lines = [
@@ -41,101 +66,13 @@ exclude_lines = [
   "if __name__ == .__main__.:",
   "if TYPE_CHECKING:"
 ]
-show_missing = true
 
 [tool.coverage.run]
 branch = true
 omit = [
-  "example_project/__about__.py"
+  "src/example_project/__about__.py"
 ]
 parallel = true
-source_pkgs = ["example_project", "tests"]
-
-[tool.cruft]
-skip = [
-  "example_project/__about__.py",
-  "example_project/__init__.py",
-  "tests/"
-]
-
-[tool.hatch.env]
-requires = ["hatch-pip-compile", "hatch-mkdocs"]
-
-[tool.hatch.env.collectors.mkdocs.docs]
-path = "mkdocs.yaml"
-
-[tool.hatch.envs.all]
-pip-compile-constraint = ""
-template = "test"
-
-[[tool.hatch.envs.all.matrix]]
-python = ["3.8", "3.9", "3.10", "3.11", "3.12"]
-
-[tool.hatch.envs.default]
-pip-compile-constraint = "default"
-post-install-commands = [
-  "- pre-commit install"
-]
-type = "pip-compile"
-
-[tool.hatch.envs.default.scripts]
-cov = "hatch run test:cov"
-test = "hatch run test:test"
-
-[tool.hatch.envs.docs]
-detached = false
-pip-compile-constraint = "default"
-template = "docs"
-type = "pip-compile"
-
-[tool.hatch.envs.gen]
-detached = true
-
-[tool.hatch.envs.gen.scripts]
-release = [
-  "npm install --prefix .github/semantic_release/",
-  "npx --prefix .github/semantic_release/ semantic-release {args:}"
-]
-
-[tool.hatch.envs.lint]
-dependencies = [
-  "mypy>=1.6.1",
-  "ruff~=0.1.7"
-]
-detached = true
-type = "pip-compile"
-
-[tool.hatch.envs.lint.scripts]
-all = [
-  "style",
-  "typing"
-]
-fmt = [
-  "ruff format {args:.}",
-  "ruff --fix {args:.}",
-  "style"
-]
-precommit = [
-  "pre-commit run --all-files"
-]
-style = [
-  "ruff {args:.}",
-  "ruff format --check --diff {args:.}"
-]
-typing = "mypy --install-types --non-interactive {args:example_project tests}"
-
-[tool.hatch.envs.test]
-dependencies = [
-  "pytest",
-  "pytest-cov"
-]
-
-[tool.hatch.envs.test.scripts]
-cov = "pytest --cov --cov-config=pyproject.toml {args:tests}"
-test = "pytest {args:tests}"
-
-[tool.hatch.version]
-path = "example_project/__about__.py"
 
 [tool.mypy]
 check_untyped_defs = true
@@ -148,6 +85,10 @@ warn_redundant_casts = true
 warn_unused_ignores = true
 
 [tool.ruff]
+line-length = 88
+target-version = "py39"
+
+[tool.ruff.lint]
 ignore = [
   # Ignore checks for possible passwords
   "S105",
@@ -168,7 +109,6 @@ ignore = [
   # Exception must not use a string literal, assign to variable first
   "EM101"
 ]
-line-length = 88
 select = [
   "A",  # flake8-builtins
   "ARG",  # flake8-unused-arguments
@@ -181,7 +121,6 @@ select = [
   "FBT",  # flake8-boolean-trap
   "I",  # isort
   "ICN",  # flake8-import-conventions
-  "ISC",  # flake8-implicit-str-concat
   "N",  # pep8-naming
   "PLC",  # Pylint (Convention message)
   "PLE",  # Pylint (Error message)
@@ -196,17 +135,16 @@ select = [
   "W",  # pycodestyle (Warning)
   "YTT"  # flake8-2020
 ]
-target-version = "py38"
 
-[tool.ruff.flake8-tidy-imports]
+[tool.ruff.lint.flake8-tidy-imports]
 ban-relative-imports = "all"
 
-[tool.ruff.isort]
+[tool.ruff.lint.isort]
 known-first-party = ["example_project"]
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 # Tests can use magic values, assertions, and relative imports
 "tests/**/*" = ["PLR2004", "S101", "TID252"]
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "numpy"

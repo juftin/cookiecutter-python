@@ -15,28 +15,32 @@ cookiecutter gh:juftin/cookiecutter-python
 
 ## Features
 
--   [hatch] for managing the project's virtual environment and development tools
--   [ruff] for code formatting and linting
--   [mypy] for type checking
--   [hatch-pip-compile] for dependency management + lockfiles
--   [pre-commit] for managing git hooks
--   [GitHub Actions] for CI/CD
--   [MkDocs] and [mkdocs-material] for documentation
--   [GitHub Pages] for hosting documentation
--   [semantic-release] and [gitmoji] for automated releases
--   Publishes to [PyPI] and [Docker Hub]
+- [uv] for managing the project's Python dependencies
+- [task] for task running and automation
+- [ruff] for code formatting and linting
+- [mypy] for type checking
+- [pre-commit] for managing git hooks
+- [GitHub Actions] for CI/CD
+- [MkDocs] and [mkdocs-material] for documentation
+- [GitHub Pages] for hosting documentation
+- [semantic-release] and [gitmoji] for automated releases
+- Publishes to [PyPI] and [Docker Hub]
 
 ## Quickstart Guide
 
 ### Requirements
 
-Install [cookiecutter]:
+- [Install uv](https://docs.astral.sh/uv/getting-started/installation/)
 
-```shell
-pipx install cookiecutter
-```
+    ```shell
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    ```
 
-[pipx] is preferred, but you can also install with `pip install --user`.
+- [Install task](https://taskfile.dev/installation/)
+
+    ```shell
+    sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d
+    ```
 
 ### Creating a project
 
@@ -45,7 +49,7 @@ pipx install cookiecutter
 Generate a Python project:
 
 ```shell
-cookiecutter gh:juftin/cookiecutter-python
+uv tool run cookiecutter gh:juftin/cookiecutter-python
 ```
 
 #### Git Init
@@ -55,23 +59,12 @@ repository, and install [pre-commit]
 
 ```shell
 git init
-pre-commit install
+task lock
+task install
 git add .
 pre-commit run --all-files
 git add .
 git commit
-```
-
-Also, make sure to commit your lockfiles, they're created at `requirements.txt`
-and in the `requirements` directory. They will be created automatically
-when you run a `hatch` command in the respective environment for the first time.
-
-```shell
-hatch run cov
-hatch run lint:all
-hatch run docs:serve
-git add requirements.txt requirements/
-git commit -m "🔐 add lockfiles"
 ```
 
 #### Secrets Init
@@ -80,10 +73,9 @@ This project uses GitHub Actions to deploy releases, documentation, and
 to publish artifacts to PyPI / Docker Hub. You will need to create
 secrets in your GitHub repository to enable these features.
 
--   `PERSONAL_ACCESS_TOKEN`: A GitHub Personal Access Token with `repo` permissions
--   `PYPI_TOKEN`: Your PyPI token (optional)
--   `DOCKER_USERNAME`: Your Docker Hub username (optional)
--   `DOCKER_TOKEN`: Your Docker Hub token (optional)
+- `PERSONAL_ACCESS_TOKEN`: A GitHub Personal Access Token with `repo` permissions
+- `DOCKER_USERNAME`: Your Docker Hub username (optional)
+- `DOCKER_TOKEN`: Your Docker Hub token (optional)
 
 A `.env` file is provided in the project root for local development, to
 sync your secrets to GitHub, run the following command with the [GitHub CLI]:
@@ -92,27 +84,11 @@ sync your secrets to GitHub, run the following command with the [GitHub CLI]:
 gh secret set --env-file .env
 ```
 
-#### cruft
+#### Docs Init
 
-[cruft] is a tool for updating cookiecutter templates after they've been
-generated. To use cruft, install it with `pipx`:
-
-```shell
-pipx install cruft
-```
-
-Then, use `cruft` instead of `cookiecutter` to generate your project:
-
-```shell
-cruft create https://github.com/juftin/cookiecutter-python
-```
-
-Later, if you want to update your project with the latest changes from
-the template:
-
-```shell
-cruft update
-```
+Enabling GitHub Pages to host your documentation
+requires going to your repository's settings, navigating to the
+"Pages" section, and selecting `GitHub Actions` as the source.
 
 #### Developing
 
@@ -120,7 +96,7 @@ This project generates its own documentation for how to use the
 project's tools. To view the documentation locally, run:
 
 ```shell
-hatch run docs:serve
+task docs
 ```
 
 Once the server is running, you can view the documentation at
@@ -130,19 +106,17 @@ Once the server is running, you can view the documentation at
 [gitmoji]: https://gitmoji.dev
 [semantic-release]: https://github.com/semantic-release/semantic-release
 [Cookiecutter]: https://github.com/cookiecutter/cookiecutter
-[hatch]: https://github.com/pypa/hatch
+[uv]: https://github.com/astral-sh/uv
+[task]: https://github.com/go-task/task
 [MkDocs]: https://github.com/mkdocs/mkdocs
 [mkdocs-material]: https://github.com/squidfunk/mkdocs-material
 [Github Actions]: https://github.com/features/actions
 [Github Pages]: https://pages.github.com/
 [juftin]: https://github.com/juftin
-[pipx]: https://github.com/pypa/pipx
 [PyPI]: https://pypi.org/
 [Docker Hub]: https://hub.docker.com/
-[hatch-pip-compile]: https://github.com/juftin/hatch-pip-compile
 [GitHub CLI]: https://cli.github.com/
 [localhost:8080/contributing]: http://localhost:8080/contributing
 [ruff]: https://github.com/astral/ruff/
 [mypy]: https://github.com/python/mypy
 [juftin.com/cookiecutter-python/contributing]: https://juftin.com/cookiecutter-python/contributing/
-[cruft]: https://github.com/cruft/cruft

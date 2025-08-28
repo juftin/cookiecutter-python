@@ -1,0 +1,26 @@
+{
+    "cookiecutter": {
+        "project_name": "example-project",
+        "friendly_name": "example-project",
+        "repo_name": "example-project",
+        "project_slug": "example_project",
+        "project_short_description": "Brief description of the project",
+        "version": "0.1.0",
+        "full_name": "Justin Flannery",
+        "email": "juftin@juftin.com",
+        "github_username": "juftin",
+        "default_python_version": "3.13",
+        "default_branch": "main",
+        "license": "MIT",
+        "development_status": "Development Status :: 1 - Planning",
+        "build_docker_image": true,
+        "publish_to_pypi": true,
+        "publish_to_docker_hub": true,
+        "logo_url": "https://raw.githubusercontent.com/juftin/juftin/main/static/juftin.png",
+        "favicon": "https://juftin.com/favicon.ico",
+        "_template": ".",
+        "_output_dir": "tests",
+        "_repo_dir": ".",
+        "_checkout": null
+    }
+}

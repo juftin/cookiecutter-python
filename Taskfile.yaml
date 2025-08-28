@@ -1,0 +1,78 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+env:
+    UV_LOCKED: 1
+
+tasks:
+    #######################################
+    default:
+        desc: Install Project, List Tasks
+        cmds:
+            - task --list-all
+        deps: [sync]
+    #######################################
+    install:
+        desc: Install Project + Dev Dependencies
+        cmds:
+            - task: pre-commit-install
+            - task: sync
+    #######################################
+    test:
+        desc: Run Tests
+        cmds:
+            - uv run -- pytest tests/test_cookiecutter.py {{.CLI_ARGS}}
+        deps:
+            - task: sync
+              vars:
+                  UV_PYTHON: "{{.UV_PYTHON}}"
+                  CLI_ARGS: --quiet
+        env:
+            UV_PYTHON: "{{.UV_PYTHON}}"
+    #######################################
+    docs:
+        desc: Generate Documentation
+        cmds:
+            - uv run --group docs -- mkdocs {{.CLI_ARGS | default "serve"}}
+    #######################################
+    run:
+        desc: Run Command within Project (requires "--")
+        interactive: true
+        cmds:
+            - uv run -- {{.CLI_ARGS}}
+    #######################################
+    lock:
+        desc: Regenerate the Project Lockfile
+        cmds:
+            - uv lock
+        env:
+            UV_LOCKED: "0"
+    #######################################
+    example-project:
+        desc: Regenerate the example project for testing
+        cmds:
+            - rm -rf tests/example-project
+            - uv run -- cookiecutter . --replay-file tests/replay.json --output-dir {{.CLI_ARGS | default "tests"}}
+    #######################################
+    # INTERNAL TASKS
+    #######################################
+    sync:
+        desc: Install Project Dependencies
+        internal: true
+        cmds:
+            - uv sync --all-extras {{.CLI_ARGS}}
+        env:
+            UV_PYTHON: "{{.UV_PYTHON}}"
+    #######################################
+    pre-commit-install:
+        desc: Install Pre-Commit Hooks
+        internal: true
+        cmds:
+            - cmd: |
+                  if [ "{{.CI | default 0}}" = "0" ]; then
+                      uv tool run --isolated pre-commit install --install-hooks
+                  fi
+              silent: true
+        status:
+            - test ! -f {{.ROOT_DIR}}/.pre-commit-config.yaml

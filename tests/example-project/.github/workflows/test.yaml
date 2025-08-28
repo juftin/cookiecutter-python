@@ -1,0 +1,51 @@
+# yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
+
+name: test
+
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - src/example_project/**
+            - pyproject.toml
+            - uv.lock
+            - .github/workflows/tests.yaml
+    pull_request:
+        paths:
+            - src/example_project/**
+            - pyproject.toml
+            - uv.lock
+            - .github/workflows/tests.yaml
+    schedule:
+        - cron: 0 12 1 * *
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: true
+            matrix:
+                include:
+                    - { name: Python 3.13, python: "3.13" }
+                    - { name: Python 3.12, python: "3.12" }
+                    - { name: Python 3.11, python: "3.11" }
+                    - { name: Python 3.10, python: "3.10" }
+                    - { name: Python 3.9, python: "3.9" }
+        permissions:
+            contents: read
+            id-token: write
+            pull-requests: write
+        steps:
+            - name: test
+              uses: juftin/actions/taskfile@v1
+              with:
+                  checkout: true
+                  setup-uv: true
+                  task: test
+                  install: true
+                  github-token: ${{ secrets.GITHUB_TOKEN }}
+                  annotations-pytest: ${{ matrix.python == '3.13' && true || false }}
+                  pytest-coverage: ${{ matrix.python == '3.13' && github.event_name == 'pull_request' && true || false }}
+              env:
+                  UV_PYTHON: ${{ matrix.python }}
