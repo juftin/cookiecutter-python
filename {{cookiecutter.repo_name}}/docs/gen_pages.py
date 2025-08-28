@@ -10,7 +10,7 @@ import mkdocs_gen_files
 logger = logging.getLogger(__name__)
 
 project_dir = Path(__file__).resolve().parent.parent
-source_code = project_dir.joinpath("{{ cookiecutter.project_slug }}")
+source_code = project_dir.joinpath("src/{{ cookiecutter.project_slug }}")
 
 for path in sorted(source_code.rglob("*.py")):
     module_path = path.relative_to(project_dir).with_suffix("")

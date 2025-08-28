@@ -1,25 +1,28 @@
 # yaml-language-server: $schema=https://www.schemastore.org/github-workflow.json
 
-name: docker
+name: test
 
 on:
+    push:
+        branches:
+            - main
     pull_request:
-        paths:
-            - src/example_project/**
-            - pyproject.toml
-            - .github/workflows/docker.yaml
-            - Dockerfile
-            - uv.lock
 
 jobs:
-    docker:
+    test:
         runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            id-token: write
+            pull-requests: write
         steps:
-            - name: docker
+            - name: test
               uses: juftin/actions/taskfile@v1
               with:
                   checkout: true
                   setup-uv: true
-                  task: docker
-                  buildx: true
+                  task: test
+                  install: true
                   github-token: ${{ secrets.GITHUB_TOKEN }}
+                  annotations-pytest: true
+                  pytest-coverage: true

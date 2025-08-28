@@ -1,12 +1,36 @@
-FROM python:3.11-slim
+ARG PYTHON_VERSION=3.12
+FROM python:${PYTHON_VERSION}-slim-bookworm
 
-MAINTAINER Justin Flannery <juftin@juftin.com>
+WORKDIR /app
 
-COPY requirements.txt /tmp/project/requirements.txt
-COPY README.md /tmp/project/README.md
-COPY pyproject.toml /tmp/project/pyproject.toml
-COPY example_project /tmp/project/example_project
+# configure uv
+ENV UV_LINK_MODE=copy \
+    UV_LOCKED=1 \
+    UV_COMPILE_BYTECODE=1
 
-RUN pip install -r /tmp/project/requirements.txt --no-deps
-RUN pip install /tmp/project && \
-    rm -rf /tmp/project
+# Install dependencies
+RUN --mount=from=ghcr.io/astral-sh/uv,source=/uv,target=/bin/uv \
+    --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --no-install-project --no-dev
+
+# Copy Project
+COPY README.md /app/README.md
+COPY pyproject.toml /app/pyproject.toml
+COPY uv.lock /app/uv.lock
+COPY src/example_project /app/src/example_project
+
+# Install project
+RUN --mount=from=ghcr.io/astral-sh/uv,source=/uv,target=/bin/uv \
+    --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --no-dev --all-extras
+
+# Environment Variables
+ENV PATH="/app/.venv/bin:${PATH}" \
+    PYTHONDONTWRITEBYTECODE="1" \
+    PYTHONUNBUFFERED="1"
+
+CMD ["python"]

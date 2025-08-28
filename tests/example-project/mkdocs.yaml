@@ -32,7 +32,7 @@ repo_name: example-project
 edit_uri: blob/main/docs/
 site_author: juftin
 remote_branch: gh-pages
-copyright: Copyright © 2024 Justin Flannery
+copyright: Copyright © 2025 Justin Flannery
 extra:
     generator: false
 exclude_docs: |
@@ -45,6 +45,7 @@ markdown_extensions:
               - !relative $config_dir
     - pymdownx.magiclink
     - attr_list
+    - sane_lists
     - md_in_html
     - pymdownx.highlight:
           anchor_linenums: true
@@ -67,7 +68,7 @@ plugins:
     - mkdocstrings:
           handlers:
               python:
-                  import:
+                  inventories:
                       - https://docs.python.org/3/objects.inv
                   options:
                       docstring_style: numpy

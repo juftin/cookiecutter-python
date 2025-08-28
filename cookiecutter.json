@@ -4,11 +4,11 @@
     "repo_name": "{{ cookiecutter.friendly_name.lower().replace(' ', '-').replace('-', '-') }}",
     "project_slug": "{{ cookiecutter.friendly_name.lower().replace(' ', '_').replace('-', '_') }}",
     "project_short_description": "Brief description of the project",
-    "version": "0.0.0",
+    "version": "0.1.0",
     "full_name": "Justin Flannery",
     "email": "juftin@juftin.com",
     "github_username": "juftin",
-    "default_python_version": ["3.11", "3.12", "3.10", "3.9", "3.8"],
+    "default_python_version": ["3.13", "3.12", "3.11", "3.10", "3.9"],
     "default_branch": ["main", "master"],
     "license": ["MIT", "Apache-2.0", "GPL-3.0", "UNLICENSED"],
     "development_status": [
@@ -24,6 +24,5 @@
     "publish_to_pypi": [false, true],
     "publish_to_docker_hub": [false, true],
     "logo_url": "https://raw.githubusercontent.com/juftin/juftin/main/static/juftin.png",
-    "favicon": "https://juftin.com/favicon.ico",
-    "_copy_without_render": ["*.hbs"]
+    "favicon": "https://juftin.com/favicon.ico"
 }
