@@ -14,21 +14,5 @@
             "prerelease": true
         }
     ],
-    "plugins": [
-        "semantic-release-gitmoji",
-        [
-            "@semantic-release/exec",
-            {
-                "prepareCmd": "uv version ${nextRelease.version} && uv build"
-            }
-        ],
-        [
-            "@semantic-release/git",
-            {
-                "assets": ["pyproject.toml", "uv.lock"],
-                "message": "🔖 cookiecutter-python ${nextRelease.version}\n\n${nextRelease.notes}\n[skip ci]"
-            }
-        ],
-        "@semantic-release/github"
-    ]
+    "plugins": ["semantic-release-gitmoji", "@semantic-release/github"]
 }
