@@ -1,6 +1,6 @@
 [project]
 name = "{{ package_name }}"
-version = "{{ version }}"
+version = "0.0.0"
 description = "{{ project_description }}"
 readme = "README.md"
 requires-python = ">=3.10"

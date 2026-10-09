@@ -21,12 +21,12 @@ COPY pyproject.toml /app/pyproject.toml
 COPY uv.lock /app/uv.lock
 COPY src/example_project /app/src/example_project
 
-# Install project
+# Install project with the release version, retaining locked dependencies.
+ARG RELEASE_VERSION=0.0.0
 RUN --mount=from=ghcr.io/astral-sh/uv,source=/uv,target=/bin/uv \
     --mount=type=cache,target=/root/.cache/uv \
-    --mount=type=bind,source=uv.lock,target=uv.lock \
-    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
-    uv sync --no-dev --all-extras
+    UV_LOCKED=0 uv version --frozen "${RELEASE_VERSION#v}" && \
+    UV_LOCKED=0 uv sync --frozen --no-dev --all-extras
 
 # Environment Variables
 ENV PATH="/app/.venv/bin:${PATH}" \

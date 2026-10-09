@@ -108,20 +108,20 @@ tasks:
         desc: Build Distribution Artifacts
         cmds:
             - cmd: rm -rf {{"{{"}}.ROOT_DIR{{"}}"}}/dist
+            - cmd: UV_LOCKED=0 uv version --frozen "{{"{{"}}.RELEASE_VERSION | default "0.0.0"{{"}}"}}"
             - cmd: uv build
+            - cmd: UV_LOCKED=0 uv version --frozen 0.0.0
     #######################################
     docker:
         desc: Build Docker Image
         cmd: |
             docker buildx build \
-              --tag {{"{{"}}.DOCKER_REPO{{"}}"}}:{{"{{"}}.RELEASE_VERSION{{"}}"}} \
+              --build-arg RELEASE_VERSION={{"{{"}}.RELEASE_VERSION | default "0.0.0"{{"}}"}} \
+              --tag {{"{{"}}.DOCKER_REPO{{"}}"}}:{{"{{"}}.RELEASE_VERSION | default "local"{{"}}"}} \
               --tag {{"{{"}}.DOCKER_REPO{{"}}"}}:latest \
               --file {{"{{"}}.ROOT_DIR{{"}}"}}/Dockerfile \
               {{"{{"}}.CLI_ARGS | default ""{{"}}"}} \
               {{"{{"}}.ROOT_DIR{{"}}"}}
-        vars:
-            RELEASE_VERSION:
-                ref: .RELEASE_VERSION | default "local"
         requires:
             vars: [DOCKER_REPO]
         status:
@@ -164,12 +164,9 @@ tasks:
             - |
                 docker run \
                   --rm -it \
-                  {{"{{"}}.DOCKER_REPO{{"}}"}}:{{"{{"}}.DOCKER_TAG_PREFIX{{"}}"}}{{"{{"}}.RELEASE_VERSION{{"}}"}} \
+                  {{"{{"}}.DOCKER_REPO{{"}}"}}:{{"{{"}}.DOCKER_TAG_PREFIX{{"}}"}}{{"{{"}}.RELEASE_VERSION | default "local"{{"}}"}} \
                   {{"{{"}}.CLI_ARGS{{"}}"}}
         deps: ["docker"]
-        vars:
-            RELEASE_VERSION:
-                ref: .RELEASE_VERSION | default "local"
         status:
             - test ! -f {{"{{"}}.ROOT_DIR{{"}}"}}/{{"{{"}}.DOCKERFILE | default "Dockerfile"{{"}}"}}
         requires:

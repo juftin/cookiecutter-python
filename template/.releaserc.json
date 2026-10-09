@@ -19,14 +19,7 @@
         [
             "@semantic-release/exec",
             {
-                "prepareCmd": "uv version ${nextRelease.version} && uv build"
-            }
-        ],
-        [
-            "@semantic-release/git",
-            {
-                "assets": ["pyproject.toml", "uv.lock"],
-                "message": "🔖 {{ package_name }} ${nextRelease.version}\n\n${nextRelease.notes}\n[skip ci]"
+                "prepareCmd": "UV_LOCKED=0 uv version --frozen ${nextRelease.version} && uv build && UV_LOCKED=0 uv version --frozen 0.0.0"
             }
         ],
         [
