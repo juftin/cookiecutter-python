@@ -24,10 +24,6 @@ project_description:
   type: str
   help: Short summary of the project.
   default: Brief description of the project
-version:
-  type: str
-  help: Initial package version.
-  default: 0.1.0
 user_name:
   type: str
   help: Primary project author's name.

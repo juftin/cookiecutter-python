@@ -1,8 +1,12 @@
 """Verify that Copier renders and updates the expected Python project."""
 
+import json
+import os
 import shutil
 import subprocess
 import sys
+import tarfile
+import zipfile
 from pathlib import Path
 
 import pytest
@@ -355,3 +359,61 @@ def test_copier_removes_consolidated_ci_workflows(tmp_path: Path) -> None:
     assert (project / ".github/workflows/ci.yaml").is_file()
     for filename in legacy_workflows:
         assert not (project / ".github/workflows" / filename).exists()
+
+
+@pytest.mark.parametrize(
+    ("release_ref", "expected_version"),
+    [("", "0.0.0"), ("v1.2.3", "1.2.3"), ("2.0.0-beta.1", "2.0.0b1")],
+)
+def test_distribution_uses_release_version_without_changing_source(
+    rendered_project: Path,
+    release_ref: str,
+    expected_version: str,
+) -> None:
+    """Stamp wheel and sdist metadata while preserving source and lock bytes."""
+    pyproject = rendered_project / "pyproject.toml"
+    assert 'version = "0.0.0"' in pyproject.read_text()
+    original_pyproject = pyproject.read_bytes()
+    lockfile = rendered_project / "uv.lock"
+    lockfile.write_text("version = 1\n")
+    original_lockfile = lockfile.read_bytes()
+
+    task_executable = shutil.which("task")
+    assert task_executable is not None
+    result = subprocess.run(
+        [task_executable, "dist"],
+        cwd=rendered_project,
+        env={**os.environ, "RELEASE_VERSION": release_ref},
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
+    assert result.returncode == 0, result.stderr
+    assert pyproject.read_bytes() == original_pyproject
+    assert lockfile.read_bytes() == original_lockfile
+    wheel = next((rendered_project / "dist").glob("*.whl"))
+    with zipfile.ZipFile(wheel) as archive:
+        metadata_path = next(
+            name for name in archive.namelist() if name.endswith(".dist-info/METADATA")
+        )
+        assert f"Version: {expected_version}\n" in archive.read(metadata_path).decode()
+    sdist = next((rendered_project / "dist").glob("*.tar.gz"))
+    with tarfile.open(sdist) as archive:
+        metadata = next(
+            member
+            for member in archive.getmembers()
+            if member.name.endswith("/PKG-INFO")
+        )
+        metadata_file = archive.extractfile(metadata)
+        assert metadata_file is not None
+        assert f"Version: {expected_version}\n" in metadata_file.read().decode()
+
+
+def test_releases_do_not_commit_version_changes(rendered_project: Path) -> None:
+    """Create release artifacts without configuring release process commits."""
+    release_config = json.loads((rendered_project / ".releaserc.json").read_text())
+    plugins = release_config["plugins"]
+    assert "@semantic-release/git" not in [
+        plugin[0] if isinstance(plugin, list) else plugin for plugin in plugins
+    ]

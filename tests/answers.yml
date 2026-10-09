@@ -1,7 +1,6 @@
 project_name: example-project
 package_name: example-project
 project_description: Brief description of the project
-version: 0.1.0
 user_name: Justin Flannery
 user_email: juftin@juftin.com
 github_user: juftin

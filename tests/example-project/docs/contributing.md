@@ -91,6 +91,14 @@ checks on the code before it is committed. You can install the pre-commit
 hooks manually, or they will be set up when you run `task install`.
 
 This project uses [semantic-versioning] standards, managed by [semantic-release].
+
+The source version stays at `0.0.0`. Releases create tags and artifacts without
+committing version changes. Package and Docker builds use `RELEASE_VERSION` from
+the release tag (with an optional `v` prefix); local builds default to `0.0.0`.
+For example, `RELEASE_VERSION=v1.2.3 task build` builds version `1.2.3`.
+Package builds reset the source version to `0.0.0` after building and leave
+`uv.lock` unchanged. Docker applies the version inside the image.
+
 Releases for this project are handled entirely by CI/CD via pull requests being
 merged into the `main` branch. Contributions follow the [gitmoji] standards
 with [conventional commits].
