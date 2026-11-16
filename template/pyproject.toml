@@ -48,6 +48,9 @@ docs = [
   "pymdown-extensions~=10.16.1"
 ]
 
+[tool.uv]
+exclude-newer = "7 days"
+
 [tool.pytest.ini_options]
 addopts = [
   "-v",
